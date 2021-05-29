@@ -5,7 +5,7 @@ import { TaskDto } from "./dto/task.dto";
 export class TaskService {
   readonly tasks: TaskDto[] = [];
 
-  create(taskDto: TaskDto) {
+  create(taskDto: TaskDto): TaskDto {
     taskDto.taskId = Date.now();
     const currentTime = new Date();
     taskDto.startedTrackingDate = currentTime;
@@ -16,19 +16,22 @@ export class TaskService {
     return taskDto;
   }
 
-  findAll() {
+  findAll(): TaskDto[] {
     return this.tasks;
   }
 
-  findOneById(taskId: number) {
-    const task: TaskDto = this.tasks.find(task => task.taskId = taskId);
-    if (!task) {
+  findCurrentTrackedTask(): TaskDto {
+    const currentlyTrackedTask = this.tasks.find(task => task.stoppedTrackingDate === undefined);
+    if (!currentlyTrackedTask) {
       throw new Error('Such task does not exist.')
     }
-    return task;
+    return currentlyTrackedTask;
   }
 
-  private stopCurrentlyTrackedTask(currentTime: Date): void {
-    this.tasks.find(task => task.stoppedTrackingDate === undefined).stoppedTrackingDate = currentTime;
+  stopCurrentlyTrackedTask(currentTime: Date): void {
+    const currentlyTrackedTask = this.findCurrentTrackedTask();
+    if (currentlyTrackedTask) {
+      currentlyTrackedTask.stoppedTrackingDate = currentTime;
+    }
   }
 }

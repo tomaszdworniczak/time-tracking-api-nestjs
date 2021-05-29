@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { TaskService } from './task.service';
-import { TaskDto } from './dto/task.dto';
+import { Body, Controller, Get, HttpCode, Patch, Post } from "@nestjs/common";
+import { TaskService } from "./task.service";
+import { TaskDto } from "./dto/task.dto";
 
 @Controller('tracked-task')
 export class TaskController {
@@ -16,8 +16,14 @@ export class TaskController {
     return this.taskService.findAll();
   }
 
-  @Get(':id')
-  findOneById(@Param('id') id: number) {
-    return this.taskService.findOneById(id);
+  @Get('current')
+  findCurrentTrackedTask() {
+    return this.taskService.findCurrentTrackedTask();
+  }
+
+  @Patch('current/stop')
+  @HttpCode(204)
+  stopTrackingCurrentTask() {
+    this.taskService.stopCurrentlyTrackedTask(new Date());
   }
 }
