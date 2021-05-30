@@ -19,8 +19,8 @@ describe('TaskController', () => {
 
   describe('findAll', () => {
     it('should return an array of all tasks', async () => {
-      const result: TaskDto[] = [ { taskId: 123123, taskName: 'testTask', startedTrackingDate: new Date(), stoppedTrackingDate: new Date() },
-        { taskId: 456456, taskName: 'testTask2', startedTrackingDate: new Date(), stoppedTrackingDate: undefined } ];
+      const result: TaskDto[] = [ { id: 123123, taskName: 'testTask', startedAt: new Date(), finishedAt: new Date() },
+        { id: 456456, taskName: 'testTask2', startedAt: new Date(), finishedAt: undefined } ];
 
       jest.spyOn(taskService, 'findAll').mockImplementation(() => result);
 
