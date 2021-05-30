@@ -1,6 +1,8 @@
 import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
+import { ApiHideProperty } from "@nestjs/swagger";
 
 export class TaskDto {
+  @ApiHideProperty()
   @IsNumber()
   @IsOptional()
   taskId: number;
@@ -8,11 +10,13 @@ export class TaskDto {
   @IsString()
   taskName: string;
 
+  @ApiHideProperty()
   @IsDate()
   @IsOptional()
   startedTrackingDate: Date;
 
+  @ApiHideProperty()
   @IsDate()
   @IsOptional()
-  stoppedTrackingDate: Date | undefined;
+  stoppedTrackingDate?: Date;
 }
