@@ -10,7 +10,11 @@ import { TaskModule } from "./task/task.module";
     ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRoot({
     type: 'postgres',
-    url: process.env.DATABASE_URL,
+    host: process.env.DATABASE_HOST,
+    port: Number(process.env.DATABASE_PORT),
+    username: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_DB,
     autoLoadEntities: true,
     synchronize: true
   }),
