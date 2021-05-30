@@ -8,7 +8,7 @@ export class TaskDto {
   id: number;
 
   @IsString()
-  taskName: string;
+  name: string;
 
   @ApiHideProperty()
   @IsDate()
