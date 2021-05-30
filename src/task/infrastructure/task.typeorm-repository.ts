@@ -17,8 +17,9 @@ export class TaskTypeormRepository implements TaskRepository {
     return findResult ? entityToDomain(findResult) : undefined;
   }
 
-  findCurrentRunning(): Promise<Task | undefined> {
-    return Promise.resolve(undefined);
+  async findCurrentRunning(): Promise<Task | undefined> {
+    const findResult = await this.repository.findOne({where: { finishedAt: null }});
+    return findResult ? entityToDomain(findResult) : undefined;
   }
 
   async save(task: Task): Promise<void> {
