@@ -1,9 +1,17 @@
-import { Injectable } from "@nestjs/common";
-import { TaskDto } from "./dto/task.dto";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { TaskDto } from "../dto/task.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { TaskEntity } from "../entities/task.entity";
 
 @Injectable()
 export class TaskService {
   readonly tasks: TaskDto[] = [];
+
+  constructor(
+    @InjectRepository(TaskEntity)
+    private readonly repository: Repository<TaskEntity>
+  ) {}
 
   create(taskDto: TaskDto): TaskDto {
     taskDto.taskId = Date.now();
@@ -23,7 +31,7 @@ export class TaskService {
   findCurrentTrackedTask(): TaskDto {
     const currentlyTrackedTask = this.tasks.find(task => task.stoppedTrackingDate === undefined);
     if (!currentlyTrackedTask) {
-      throw new Error('Such task does not exist.')
+      throw new NotFoundException('Such task does not exist.')
     }
     return currentlyTrackedTask;
   }
