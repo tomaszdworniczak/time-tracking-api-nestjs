@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, Patch, Post } from "@nestjs/common";
-import { TaskService } from "./task.service";
-import { TaskDto } from "./dto/task.dto";
+import { TaskService } from "../services/task.service";
+import { TaskDto } from "../dto/task.dto";
 
 @Controller('tracked-task')
 export class TaskController {
