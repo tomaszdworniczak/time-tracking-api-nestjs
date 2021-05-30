@@ -5,7 +5,7 @@ export class TaskDto {
   @ApiHideProperty()
   @IsNumber()
   @IsOptional()
-  taskId: number;
+  id: number;
 
   @IsString()
   taskName: string;
@@ -13,10 +13,10 @@ export class TaskDto {
   @ApiHideProperty()
   @IsDate()
   @IsOptional()
-  startedTrackingDate: Date;
+  startedAt: Date;
 
   @ApiHideProperty()
   @IsDate()
   @IsOptional()
-  stoppedTrackingDate?: Date;
+  finishedAt?: Date;
 }
