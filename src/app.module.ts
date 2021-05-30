@@ -3,6 +3,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
+import { TaskModule } from "./task/task.module";
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { ConfigModule } from "@nestjs/config";
     url: process.env.DATABASE_URL,
     autoLoadEntities: true,
     synchronize: true
-  })],
+  }),
+  TaskModule],
   controllers: [AppController],
   providers: [AppService],
 })

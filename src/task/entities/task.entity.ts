@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('task')
-export class TaskEntity {
+export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -11,6 +11,6 @@ export class TaskEntity {
   @Column()
   startedAt: Date;
 
-  @Column({ type: 'timestamp', default: () => undefined })
+  @Column({ type: 'timestamp', default: undefined })
   finishedAt: Date;
 }
