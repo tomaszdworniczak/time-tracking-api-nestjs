@@ -14,5 +14,5 @@ export class TaskDto {
 
   @IsDate()
   @IsOptional()
-  stoppedTrackingDate: Date;
+  stoppedTrackingDate: Date | undefined;
 }
