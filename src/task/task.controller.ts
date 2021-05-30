@@ -11,7 +11,7 @@ export class TaskController {
     return this.taskService.create(taskDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.taskService.findAll();
   }
