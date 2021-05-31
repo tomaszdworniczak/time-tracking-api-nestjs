@@ -45,7 +45,7 @@ export class TaskService {
     return currentRunningTask;
   }
 
-  async stopCurrentlyTrackedTask(currentTime: Date): Promise<void> {     //co gdyby ktoś w tym samym wysłał 2 requesty i w 43 linijce
+  private async stopCurrentlyTrackedTask(currentTime: Date): Promise<void> {     //co gdyby ktoś w tym samym wysłał 2 requesty i w 43 linijce
     const currentlyTrackedTask = await this.repository.findCurrentRunning();
     if (currentlyTrackedTask) {
       const finishedTask = currentlyTrackedTask.stopTracking(currentTime);
