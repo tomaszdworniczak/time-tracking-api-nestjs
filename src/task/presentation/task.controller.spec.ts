@@ -1,30 +1,40 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { TaskController } from './task.controller';
-import { TaskService } from '../application/task.service';
-import { TaskDto } from "./dto/task.dto";
+import { Test, TestingModule } from "@nestjs/testing";
+import { TaskController } from "./task.controller";
+import { TaskService } from "../application/task.service";
+import { TaskModule } from "../task.module";
+import { INestApplication } from "@nestjs/common";
+import request from "supertest";
+import { TaskInmemoryRepository } from "../infrastructure/task.inmemory-repository";
 
 describe('TaskController', () => {
-  let taskController: TaskController;
-  let taskService: TaskService;
+  let app: INestApplication;
+  let taskService =  {
+    findCurrentTrackedTask: jest.fn(),
+    startTracking: jest.fn(),
+    stopById: jest.fn(),
+  };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [TaskController],
-      providers: [TaskService],
-    }).compile();
+      imports: [TaskModule],
+    }).overrideProvider(TaskService)
+      .useValue(taskService)
+      .overrideProvider('TaskRepository')
+      .useValue(new TaskInmemoryRepository())
+      .compile();
 
-    taskController = module.get<TaskController>(TaskController);
-    taskService = module.get<TaskService>(TaskService)
+    app = module.createNestApplication();
+    await app.init();
   });
 
-  // describe('findAll', () => {
-  //   it('should return an array of all tasks', async () => {
-  //     const result: TaskDto[] = [ { id: 123123, name: 'testTask', startedAt: new Date(), finishedAt: new Date() },
-  //       { id: 456456, name: 'testTask2', startedAt: new Date(), finishedAt: undefined } ];
-  //
-  //     jest.spyOn(taskService, 'findAll').mockImplementation(() => Promise.resolve(result));
-  //
-  //     expect(await taskController.findAll()).toBe(result);
-  //   });
-  // });
+  xit('POST tracked-task', () => {
+    taskService.startTracking.mockReturnValue('taskID')
+
+    return request(app.getHttpServer())
+      .post('/tracked-task')
+      .expect(201)
+      .expect({
+        data: 'taskID',
+      })
+  })
 });
