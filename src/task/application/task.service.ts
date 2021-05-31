@@ -24,12 +24,17 @@ export class TaskService {
     return id;
   }
 
-  async stopById(id: string): Promise<void> {
+  async stopById(id: string): Promise<Task> {
     const currentlyTrackedTask = await this.repository.findById(id);
-    if (currentlyTrackedTask) {
-      const finishedTask = currentlyTrackedTask.stopTracking(this.currentTimeProvider.currentTime()); // błąd jeśli nie ma id i jak już jest zastopowany
-      await this.repository.save(finishedTask);
+    if (!currentlyTrackedTask) {
+      throw new Error(`There is no task with given id: ${id}.`);
     }
+    if (currentlyTrackedTask.getTrackingStoppedAt()) {
+      throw new Error('Tracking of this task was already stopped.');
+    }
+    const finishedTask = currentlyTrackedTask.stopTracking(this.currentTimeProvider.currentTime());
+    await this.repository.save(finishedTask);
+    return finishedTask;
   }
 
   async findCurrentTrackedTask(): Promise<Task> {
