@@ -4,17 +4,17 @@ import { Task } from "../domain/task";
 
 @Injectable()
 export class TaskInmemoryRepository implements TaskRepository {
-  private readonly entities: Task[] = []
+  private readonly entities: { [id:string]: Task} = {}
 
   async save(task: Task): Promise<void> {
-    this.entities.push(task);
+    this.entities[task.getId()] = task;
   }
 
   findById(id: string): Promise<Task | undefined> {
-    return Promise.resolve(this.entities.find(id => id));
+    return Promise.resolve(this.entities[id]);
   }
 
   findCurrentRunning(): Promise<Task | undefined> {
-    return Promise.resolve(this.entities.find(task => task.getTrackingStoppedAt() === undefined));
+    return Promise.resolve(Object.values(this.entities).find(task => task.getTrackingStoppedAt() === undefined));
   }
 }
