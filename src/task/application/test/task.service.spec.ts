@@ -8,7 +8,7 @@ describe('TaskService', () => {
     it('Given task name, should start tracking task, save it to repository and return its id', async () => {
         //Given
         const taskStartAt = new Date();
-        const idGenerator = FromListEntityIdGeneratorStub(['taskID1', 'taskID2']);
+        const idGenerator = FromListEntityIdGeneratorStub(['taskID1']);
         const taskRepository = new TaskInmemoryRepository();
         const currentTimeProvider = {currentTime: jest.fn().mockReturnValueOnce(taskStartAt)}
         const taskService: TaskService = new TaskService(taskRepository, idGenerator, currentTimeProvider);
@@ -21,7 +21,7 @@ describe('TaskService', () => {
         const expectedTaskObject = Task.fromEntity('taskID1', taskName, taskStartAt, undefined);
 
         expect(result).toBe('taskID1');
-        expect(await taskRepository.findById('TaskID1')).toStrictEqual(expectedTaskObject);
+        expect(await taskRepository.findById('taskID1')).toStrictEqual(expectedTaskObject);
     });
 
     it('Given task id, should stop current tracked task and save finished task in repository', async () => {
