@@ -1,22 +1,22 @@
-import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
-import { ApiHideProperty } from "@nestjs/swagger";
+import { IsDate, IsString } from "class-validator";
 
 export class TaskDto {
-  @ApiHideProperty()
-  @IsNumber()
-  @IsOptional()
-  id: number;
+  @IsString()
+  id: string;
 
   @IsString()
   name: string;
 
-  @ApiHideProperty()
   @IsDate()
-  @IsOptional()
   startedAt: Date;
 
-  @ApiHideProperty()
   @IsDate()
-  @IsOptional()
-  finishedAt?: Date;
+  finishedAt: Date | undefined;
+
+  constructor(id: string, name: string, startedAt: Date, finishedAt: Date | undefined) {
+    this.id = id;
+    this.name = name;
+    this.startedAt = startedAt;
+    this.finishedAt = finishedAt;
+  }
 }
