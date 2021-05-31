@@ -29,5 +29,5 @@ export class TaskTypeormRepository implements TaskRepository {
 }
 
 function entityToDomain(entity: TaskEntity): Task {
-  return Task.startTracking(entity.id, entity.name, entity.startedAt);
+  return Task.fromEntity(entity.id, entity.name, entity.startedAt, entity.finishedAt);
 }
